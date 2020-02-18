@@ -5,14 +5,14 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model;
 
 /**
- * Class Films_Character
+ * Class FilmsCharacter
  *
  * @property int $film_id
  * @property int $people_id
  * 
  * @package App\Models
  */
-class Films_Character extends Model
+class FilmsCharacter extends Model
 {
 
     protected $casts = [
@@ -25,5 +25,13 @@ class Films_Character extends Model
         'people_id',
     ];
 
-    
+    public function film()
+	{
+		return $this->belongsTo(\App\Models\Film::class);
+	}
+
+	public function people()
+	{
+		return $this->belongsTo(\App\Models\People::class);
+	}
 }

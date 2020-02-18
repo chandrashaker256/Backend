@@ -49,4 +49,9 @@ use Reliese\Database\Eloquent\Model;
         'name',
         'skin_color',
     ];
+
+    public function film()     
+	{
+		return $this->belongsToMany(\App\Models\Film::class, 'films_characters', 'people_id')->withPivot('id');
+	} 
 }

@@ -44,4 +44,9 @@ class Film extends Model
         'release_date',
         'title',
     ];
+
+    public function people()     
+	{
+		return $this->belongsToMany(\App\Models\People::class, 'films_characters', 'film_id')->withPivot('id');
+	} 
 }
