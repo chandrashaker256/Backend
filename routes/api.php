@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::group(['namespace' => '\App\Http\Controllers\api\v1'], function()
+Route::group(['middleware' => ['api', 'cors'],'namespace' => '\App\Http\Controllers\api\v1'], function()
 {
     Route::post('/getAnswers', 'QandAController@getAnswers');
 });

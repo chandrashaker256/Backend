@@ -49,6 +49,24 @@ class QandAController extends Controller
 
         }
         $data['spieces_count_results'] = $spieces_count_results;
+
+        #Question 4
+        $planets_count_query = DB::select(DB::raw("SELECT table_a.name,table_a.vehicle_id,table_b.pilots,vehicles.vehicle_class,people.name AS people FROM (SELECT planets.name,films_vehicles.vehicle_id FROM films_planets 
+        JOIN films_vehicles ON films_planets.film_id = films_vehicles.film_id
+        LEFT JOIN planets ON films_planets.`planet_id` = planets.id
+        GROUP BY films_vehicles.vehicle_id) AS table_a
+        LEFT JOIN (SELECT vehicles_pilots.vehicle_id, vehicles_pilots.people_id,count(vehicles_pilots.vehicle_id) AS pilots FROM vehicles_pilots GROUP BY vehicles_pilots.vehicle_id) AS table_b ON table_b.vehicle_id = table_a.vehicle_id
+        LEFT JOIN vehicles ON vehicles.id = table_a.vehicle_id
+        LEFT JOIN people ON people.id = table_b.people_id
+        WHERE table_b.vehicle_id IS NOT Null"));
+        
+        $planets_count_results = array();
+        foreach($planets_count_query as $planets_count)
+        {
+            array_push($planets_count_results, array("planet_name"=>$planets_count->name,"count"=>$planets_count->pilots,"people"=>$planets_count->people,"vehicle"=>$planets_count->vehicle_class));
+
+        }
+        $data['planets_count_results'] = $planets_count_results;
         return $data;
 
     }
